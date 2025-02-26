@@ -1,8 +1,7 @@
-import Container from "@/components/Container"
-import Menu from "@/components/Menu"
+import SchedulePage from "@/pages/SchedulePage"
 
 const Home = () => {
-  return <Menu />
+  return <SchedulePage />
 }
 
 export default Home
