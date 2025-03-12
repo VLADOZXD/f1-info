@@ -1,11 +1,14 @@
 import Menu from "@/components/Menu"
 import Schedule from "@/components/Schedule"
+import { ScheduleType } from "@/types/schedule"
 
-const SchedulePage = () => {
+type SchedulePageProps = { schedule: ScheduleType }
+
+const SchedulePage = ({ schedule }: SchedulePageProps) => {
   return (
     <>
       <Menu />
-      <Schedule />
+      <Schedule events={schedule.events} year={schedule.year} />
     </>
   )
 }

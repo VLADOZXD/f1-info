@@ -1,4 +1,5 @@
 export const countries = {
+  "Abu Dhabi": "AE",
   Afghanistan: "AF",
   Albania: "AL",
   Algeria: "DZ",
@@ -159,6 +160,7 @@ export const countries = {
   "Norfolk Island": "NF",
   "North Korea": "KP",
   "United Kingdom": "GB",
+  "Great Britain": "GB",
   "Northern Mariana Islands": "MP",
   Norway: "NO",
   Oman: "OM",
@@ -177,7 +179,7 @@ export const countries = {
   Qatar: "QA",
   Reunion: "RE",
   Romania: "RO",
-  "Russian Federation": "RU",
+  Russia: "RU",
   Rwanda: "RW",
   "Saint Helena": "SH",
   "Saint Kitts and Nevis": "KN",
