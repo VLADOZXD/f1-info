@@ -18,3 +18,7 @@ export type Driver = {
   driver_code: string
   team_color: string
 }
+
+export type PodiumType = {
+  podium: Driver[]
+}

@@ -1,8 +1,12 @@
 import { text } from "stream/consumers"
 import Container from "../Container"
 import MenuItem from "./MenuItem"
+import { link } from "fs"
 
-const MENU_ITEMS = [{ text: "schedule" }, { text: "standing" }]
+const MENU_ITEMS = [
+  { text: "schedule", href: "/" },
+  { text: "standing", href: "/standings" },
+]
 
 const Menu = () => {
   return (
@@ -13,7 +17,7 @@ const Menu = () => {
         </div>
         <ul className="flex flex-row xl:gap-12 md:gap-10 gap-6">
           {MENU_ITEMS.map((item) => (
-            <MenuItem text={item.text} key={item.text} />
+            <MenuItem href={item.href} text={item.text} key={item.text} />
           ))}
         </ul>
       </div>

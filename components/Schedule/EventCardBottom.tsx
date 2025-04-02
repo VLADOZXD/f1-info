@@ -24,13 +24,13 @@ const EventCardBottom = ({
 
   if (!finished) {
     cardBottomContent = (
-      <div className="h-16 bg-scheduleBackground rounded-b-xl py-4 text-center text-xl font-medium">
+      <div className="h-16 bg-secondary rounded-b-xl py-4 text-center text-xl font-medium">
         {`${formateDate(start_event_date)} - ${formateDate(end_event_date)}`}
       </div>
     )
   } else if (loading) {
     cardBottomContent = (
-      <div className="flex justify-around items-end sm:px-4 px-1 py-1 h-16 bg-scheduleBackground rounded-b-xl text-center animate-pulse">
+      <div className="flex justify-around items-end sm:px-4 px-1 py-1 h-16 bg-secondary rounded-b-xl text-center animate-pulse">
         {new Array(3).fill(null).map((_, index) => (
           <div
             key={index}
@@ -47,7 +47,7 @@ const EventCardBottom = ({
     )
   } else {
     cardBottomContent = (
-      <div className="flex justify-around items-end sm:px-4 px-1 py-1 h-16 bg-scheduleBackground rounded-b-xl text-center">
+      <div className="flex justify-around items-end sm:px-4 px-1 py-1 h-16 bg-secondary rounded-b-xl text-center">
         {podium &&
           podium.map((driver: Driver) => (
             <Podium
@@ -63,7 +63,7 @@ const EventCardBottom = ({
 
   if (round === 0) {
     cardBottomContent = (
-      <div className="h-16 bg-scheduleBackground rounded-b-xl py-4 text-center text-xl font-medium">
+      <div className="h-16 bg-secondary rounded-b-xl py-4 text-center text-xl font-medium">
         ENDED
       </div>
     )

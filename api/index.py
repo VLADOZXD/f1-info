@@ -8,7 +8,7 @@ from .routes import router as api_router
 
 load_dotenv()
 
-allowed_origins = os.getenv("FASTAPI_API_URL", "").split(",")
+allowed_origins = os.getenv("NEXT_PUBLIC_FASTAPI_API_URL", "").split(",")
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 

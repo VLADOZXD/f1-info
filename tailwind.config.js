@@ -10,9 +10,9 @@ module.exports = {
     extend: {
       fontFamily: { oxanium: "Oxanium" },
       colors: {
-        background: "#16191D",
+        primary: "#16191D",
         red: "#E10600",
-        scheduleBackground: "#0D0F11",
+        secondary: "#101215",
       },
       keyframes: {
         pulseHeight1: {

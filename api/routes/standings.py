@@ -32,7 +32,7 @@ async def get_driver_standings(year: int):
     except Exception as e:
         return {"error": str(e)}
         
-@router.get("//constructor/{year}")
+@router.get("/constructor/{year}")
 async def get_constructor_standings(year: int):
     try:
         standings_data = ergast.get_constructor_standings(year, result_type='raw')[0]
@@ -46,10 +46,10 @@ async def get_constructor_standings(year: int):
             constructor_data = {
                 "position": constructor["positionText"],
                 "points": constructor["points"],
-                "construcor_name": construcor_name,
+                "constructor_name": construcor_name,
                 "team_color": get_team_color(year, 1, construcor_name) if year > 2017 else "#b8b8b8"
             }
             standings.append(constructor_data)
-        return {"constructor_standing": standings}
+        return {"constructor_standings": standings}
     except Exception as e:
         return {"error": str(e)}  

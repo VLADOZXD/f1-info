@@ -1,12 +1,13 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Driver, RaceEventType } from "@/types/schedule"
 import formateDate from "@/utils/formateDate"
 import { getCountryCode } from "@/utils/getCountryCode"
 import ReactCountryFlag from "react-country-flag"
 import EventCardBottom from "./EventCardBottom"
-import getEventPodium from "@/utils/getEventPodium"
-import { useEffect, useState } from "react"
+// import getEventPodium from "@/utils/getEventPodium"
+import { getEventPodium } from "@/utils/api"
 
 type EventCardProps = RaceEventType & {
   finished?: boolean
@@ -22,17 +23,18 @@ const EventCard = ({
   end_event_date,
   year,
 }: EventCardProps) => {
-  const [podium, setPodium] = useState<Driver[]>([])
+  const [podium, setPodium] = useState<Driver[] | []>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchPodium = async () => {
+      setLoading(true)
+
       try {
-        const data = await getEventPodium(year, round, end_event_date)
-        setPodium(data.podium || [])
-      } catch (err) {
-        setError("Failed to fetch podium data")
+        if (new Date().getTime() > new Date(end_event_date).getTime()) {
+          const data = await getEventPodium(year, round)
+          setPodium(data.podium || [])
+        }
       } finally {
         setLoading(false)
       }
@@ -44,7 +46,7 @@ const EventCard = ({
   const countryCode = getCountryCode(country)
 
   return (
-    <div className="w-auto rounded-xl border-2 bg-background border-red relative hover:scale-[1.01] ease-in-out duration-50">
+    <div className="w-auto rounded-xl border-2 bg-primary border-red relative hover:scale-[1.01] ease-in-out duration-50">
       <div className="absolute md:top-[-10px] top-[-8px] md:left-6 left-3 bg-inherit md:text-sm text-xs sm:font-bold font-semibold uppercase sm:px-2 px-0.5">
         {`Round ${round}`}
       </div>
