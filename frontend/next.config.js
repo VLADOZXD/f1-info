@@ -1,5 +1,10 @@
+require("dotenv").config({ path: "../.env" })
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.URL,
+  },
   rewrites: async () => {
     return [
       {
@@ -23,8 +28,8 @@ const nextConfig = {
             ? "http://127.0.0.1:8000/api/py/openapi.json"
             : "/api/py/openapi.json",
       },
-    ];
+    ]
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

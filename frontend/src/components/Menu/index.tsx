@@ -1,7 +1,5 @@
-import { text } from "stream/consumers"
 import Container from "../Container"
 import MenuItem from "./MenuItem"
-import { link } from "fs"
 
 const MENU_ITEMS = [
   { text: "schedule", href: "/" },

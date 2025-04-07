@@ -8,7 +8,7 @@ from .routes import router as api_router
 
 load_dotenv()
 
-allowed_origins = os.getenv("NEXT_PUBLIC_FASTAPI_API_URL", "").split(",")
+allowed_origins = os.getenv("URL", "").split(",")
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
@@ -20,8 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-if not os.path.exists('./api/__pycache__'):
-    os.makedirs('./api/__pycache__')
-fastf1.Cache.enable_cache('./api/__pycache__') 
+if not os.path.exists('./backend/__pycache__'):
+    os.makedirs('./backend/__pycache__')
+fastf1.Cache.enable_cache('./backend/__pycache__') 
 
 app.include_router(api_router)

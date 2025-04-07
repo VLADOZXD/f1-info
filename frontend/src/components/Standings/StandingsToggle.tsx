@@ -14,7 +14,7 @@ const StandingsToggle = ({ toggle, onToggle }: StandingsToggleProps) => {
           DRIVER
         </h2>
         <h2
-          className={`lg:p-5 md:p-4 p-2 cursor-default ${toggle === "constructor" ? "text-red" : "text-white"}`}
+          className={`lg:p-6 md:p-4 p-2 cursor-default ${toggle === "constructor" ? "text-red" : "text-white"}`}
           onClick={() => onToggle("constructor")}
         >
           CONSTRUCTOR

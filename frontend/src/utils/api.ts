@@ -1,11 +1,12 @@
 import { PodiumType, ScheduleType } from "@/types/schedule"
 
-const API_URL = process.env.NEXT_PUBLIC_FASTAPI_API_URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 const fetchData = async <T>(
   endpoint: string,
   params?: Record<string, any>,
 ): Promise<T> => {
+  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL)
   const url = new URL(`${API_URL}${endpoint}`)
 
   if (params) {
