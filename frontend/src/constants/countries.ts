@@ -179,7 +179,6 @@ export const countries = {
   Qatar: "QA",
   Reunion: "RE",
   Romania: "RO",
-  Russia: "RU",
   Rwanda: "RW",
   "Saint Helena": "SH",
   "Saint Kitts and Nevis": "KN",

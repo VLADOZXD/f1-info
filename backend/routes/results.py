@@ -7,7 +7,7 @@ router = APIRouter(prefix="/api/py/results", tags=["Results"])
 
 ergast = Ergast()
 
-@router.get("/podium/")
+@router.get("/podium")
 async def get_race_podium(year: int, round: int):
     try:
         podium = ergast.get_race_results(year, round, result_type='raw', limit=3)[0]["Results"]

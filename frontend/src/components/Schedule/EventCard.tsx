@@ -1,12 +1,9 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { Driver, RaceEventType } from "@/types/schedule"
 import formateDate from "@/utils/formateDate"
 import { getCountryCode } from "@/utils/getCountryCode"
 import ReactCountryFlag from "react-country-flag"
 import EventCardBottom from "./EventCardBottom"
-// import getEventPodium from "@/utils/getEventPodium"
 import { getEventPodium } from "@/utils/api"
 
 type EventCardProps = RaceEventType & {
@@ -27,20 +24,30 @@ const EventCard = ({
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchPodium = async () => {
-      setLoading(true)
+    const controller = new AbortController()
 
+    const fetchPodium = async () => {
+      if (new Date().getTime() <= new Date(end_event_date).getTime()) return
+
+      setLoading(true)
       try {
-        if (new Date().getTime() > new Date(end_event_date).getTime()) {
-          const data = await getEventPodium(year, round)
+        const data = await getEventPodium(year, round, controller.signal)
+        if (!controller.signal.aborted) {
           setPodium(data.podium || [])
         }
+      } catch (err) {
       } finally {
-        setLoading(false)
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
       }
     }
 
     fetchPodium()
+
+    return () => {
+      controller.abort()
+    }
   }, [year, round, end_event_date])
 
   const countryCode = getCountryCode(country)
@@ -58,16 +65,18 @@ const EventCard = ({
       <div className="sm:px-4 sm:py-4 py-3 px-1 h-[108px]">
         <div className="flex items-center">
           <div className="flex flex-row items-center md:gap-2 gap-0.5">
-            {countryCode && (
-              <div className="md:w-[40px] w-7 aspect-auto">
+            <div className="md:w-[40px] w-7 aspect-auto">
+              {countryCode !== undefined ? (
                 <ReactCountryFlag
                   className="rounded-lg"
                   countryCode={countryCode}
                   svg
                   style={{ display: "flex", width: "100%", height: "100%" }}
                 />
-              </div>
-            )}
+              ) : (
+                <div className="bg-white rounded-lg w-full md:h-[30px] h-[21px]"></div>
+              )}
+            </div>
             <h2 className="md:text-sm text-xs font-semibold">{country}</h2>
           </div>
         </div>

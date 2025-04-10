@@ -5,8 +5,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 const fetchData = async <T>(
   endpoint: string,
   params?: Record<string, any>,
+  signal?: AbortSignal,
 ): Promise<T> => {
-  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL)
   const url = new URL(`${API_URL}${endpoint}`)
 
   if (params) {
@@ -15,7 +15,7 @@ const fetchData = async <T>(
     )
   }
 
-  const response = await fetch(url.toString())
+  const response = await fetch(url.toString(), { signal })
 
   if (!response.ok) {
     throw new Error(response.statusText)
@@ -27,8 +27,9 @@ const fetchData = async <T>(
 export const getEventPodium = (
   year: number,
   round: number,
+  signal?: AbortSignal,
 ): Promise<PodiumType> => {
-  return fetchData(`/api/py/results/podium/`, { year, round })
+  return fetchData(`/api/py/results/podium/`, { year, round }, signal)
 }
 
 export const getSchedule = (year: number): Promise<ScheduleType> => {
