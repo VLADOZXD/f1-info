@@ -6,7 +6,7 @@ import ReactCountryFlag from "react-country-flag"
 import EventCardBottom from "./EventCardBottom"
 import { getEventPodium } from "@/utils/api"
 
-type EventCardProps = RaceEventType & {
+type EventCardProps = Omit<RaceEventType, "id"> & {
   finished?: boolean
   year: number
 }

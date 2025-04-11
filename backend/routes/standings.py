@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastf1.ergast import Ergast
+import uuid
 
 from ..utils.get_team_color import get_team_color
 
@@ -21,6 +22,7 @@ async def get_driver_standings(year: int):
             team_name = driver['Constructors'][-1]['name']
 
             driver_data = {
+                "id": str(uuid.uuid4()),
                 "position": driver["positionText"],
                 "points": driver["points"],
                 "driver_name": f"{driver['Driver']['givenName']} {driver['Driver']['familyName']}",
@@ -44,6 +46,7 @@ async def get_constructor_standings(year: int):
             construcor_name = constructor['Constructor']['name']
 
             constructor_data = {
+                "id": str(uuid.uuid4()),
                 "position": constructor["positionText"],
                 "points": constructor["points"],
                 "constructor_name": construcor_name,

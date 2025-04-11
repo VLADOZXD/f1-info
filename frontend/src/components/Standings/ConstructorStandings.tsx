@@ -15,7 +15,7 @@ const ConstructorStandings = ({ constructors }: ConstructorStandingsProps) => {
       <tbody>
         {constructors.map((construcotor) => (
           <tr
-            key={construcotor.constructor_name}
+            key={construcotor.id}
             className="odd:bg-primary even:bg-secondary sm:text-base text-xs"
           >
             <td className="pl-4 py-2">{construcotor.position}</td>

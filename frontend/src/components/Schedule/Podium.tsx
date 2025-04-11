@@ -12,7 +12,7 @@ const PODIUM_ORDER = {
   3: "order-3",
 }
 
-type PodiumType = Driver
+type PodiumType = Omit<Driver, "id">
 
 const Podium = ({ driver_code, position, team_color }: PodiumType) => {
   return (

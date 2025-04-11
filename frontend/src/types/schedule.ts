@@ -1,6 +1,7 @@
 import { countries } from "@/constants/countries"
 
 export type RaceEventType = {
+  id: string
   round: number
   name: string
   country: keyof typeof countries
@@ -14,6 +15,7 @@ export type ScheduleType = {
 }
 
 export type Driver = {
+  id: string
   position: number
   driver_code: string
   team_color: string

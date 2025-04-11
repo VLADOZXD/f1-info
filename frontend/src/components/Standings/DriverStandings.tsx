@@ -16,7 +16,7 @@ const DriverStandings = ({ drivers }: DriverStandingsProps) => {
       <tbody>
         {drivers.map((driver) => (
           <tr
-            key={driver.driver_name}
+            key={driver.id}
             className="odd:bg-primary even:bg-secondary sm:text-base text-xs"
           >
             <td className="pl-4 py-2">{driver.position}</td>

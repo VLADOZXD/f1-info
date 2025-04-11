@@ -1,4 +1,5 @@
 type DriverStandingType = {
+  id: string
   position: string
   points: string
   driver_name: string
@@ -11,6 +12,7 @@ type DriverStandingsType = {
 }
 
 type ConstructorStandingType = {
+  id: string
   position: string
   points: string
   constructor_name: string

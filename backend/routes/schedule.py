@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 import fastf1
 import fastf1.utils
+import uuid
 
 router = APIRouter(prefix="/api/py/schedule", tags=["Schedule"])
 
@@ -12,6 +13,7 @@ async def get_schedule(year: int):
         events = []
         for _, event in schedule.iterrows():
             event_data = {
+                "id": str(uuid.uuid4()),
                 "round": event["RoundNumber"],
                 "name": event["OfficialEventName"],
                 "country": event["Country"],

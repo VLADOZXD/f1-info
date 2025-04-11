@@ -51,7 +51,7 @@ const EventCardBottom = ({
         {podium &&
           podium.map((driver: Driver) => (
             <Podium
-              key={driver.driver_code}
+              key={driver.id}
               driver_code={driver.driver_code}
               position={driver.position}
               team_color={driver.team_color}
