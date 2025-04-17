@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Container from "@/components/Container"
 import DriverStandings from "@/components/Standings/DriverStandings"
 import StandingsToggle from "@/components/Standings/StandingsToggle"
@@ -8,35 +8,23 @@ import { getConstructorStandings, getDriverStandings } from "@/utils/api"
 import ConstructorStandings from "@/components/Standings/ConstructorStandings"
 import SkeletonStandings from "@/components/Standings/SkeletonStandings"
 import ArrowButton from "@/components/ArrowButton"
+import { useFetch } from "@/hooks/useFetch"
 
 const StandingsPage = () => {
   const [toggle, setToggle] = useState<"driver" | "constructor">("driver")
-  const [data, setData] = useState<
-    DriverStandingsType | ConstructorStandingsType | null
-  >(null)
-  const [loading, setLoading] = useState(false)
 
   const currentYear = new Date().getFullYear()
-
   const [year, setYear] = useState(currentYear)
 
-  useEffect(() => {
-    const fetchStandings = async () => {
-      setLoading(true)
-
-      try {
-        const fetchedData =
-          toggle === "driver"
-            ? await getDriverStandings(year)
-            : await getConstructorStandings(year)
-        setData(fetchedData)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchStandings()
-  }, [toggle, year])
+  const { data: standings, loading } = useFetch<
+    DriverStandingsType | ConstructorStandingsType
+  >({
+    fetcher: () =>
+      toggle === "driver"
+        ? getDriverStandings(year)
+        : getConstructorStandings(year),
+    deps: [toggle, year],
+  })
 
   const handlerToggleClick = (standings: "driver" | "constructor") => {
     setToggle(standings)
@@ -71,13 +59,15 @@ const StandingsPage = () => {
       </div>
       {loading && <SkeletonStandings columns={toggle === "driver" ? 4 : 3} />}
       {!loading &&
-        data &&
-        (toggle === "driver" && "driver_standings" in data ? (
-          <DriverStandings drivers={data.driver_standings} />
+        standings &&
+        (toggle === "driver" && "driver_standings" in standings ? (
+          <DriverStandings drivers={standings.driver_standings} />
         ) : (
           toggle === "constructor" &&
-          "constructor_standings" in data && (
-            <ConstructorStandings constructors={data.constructor_standings} />
+          "constructor_standings" in standings && (
+            <ConstructorStandings
+              constructors={standings.constructor_standings}
+            />
           )
         ))}
     </Container>

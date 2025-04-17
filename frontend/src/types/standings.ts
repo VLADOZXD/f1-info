@@ -1,4 +1,4 @@
-type DriverStandingType = {
+type DriverStandingsData = {
   id: string
   position: string
   points: string
@@ -8,10 +8,10 @@ type DriverStandingType = {
 }
 
 type DriverStandingsType = {
-  driver_standings: DriverStandingType[]
+  driver_standings: DriverStandingsData[]
 }
 
-type ConstructorStandingType = {
+type ConstructorStandingsData = {
   id: string
   position: string
   points: string
@@ -20,5 +20,5 @@ type ConstructorStandingType = {
 }
 
 type ConstructorStandingsType = {
-  constructor_standings: ConstructorStandingType[]
+  constructor_standings: ConstructorStandingsData[]
 }

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
-import { Driver, RaceEventType } from "@/types/schedule"
-import formateDate from "@/utils/formateDate"
-import { getCountryCode } from "@/utils/getCountryCode"
+import { useFetch } from "@/hooks/useFetch"
 import ReactCountryFlag from "react-country-flag"
 import EventCardBottom from "./EventCardBottom"
 import { getEventPodium } from "@/utils/api"
+import formateDate from "@/utils/formateDate"
+import { getCountryCode } from "@/utils/getCountryCode"
+import { RaceEventType } from "@/types/schedule"
 
 type EventCardProps = Omit<RaceEventType, "id"> & {
   finished?: boolean
@@ -20,35 +20,11 @@ const EventCard = ({
   end_event_date,
   year,
 }: EventCardProps) => {
-  const [podium, setPodium] = useState<Driver[] | []>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const controller = new AbortController()
-
-    const fetchPodium = async () => {
-      if (new Date().getTime() <= new Date(end_event_date).getTime()) return
-
-      setLoading(true)
-      try {
-        const data = await getEventPodium(year, round, controller.signal)
-        if (!controller.signal.aborted) {
-          setPodium(data.podium || [])
-        }
-      } catch (err) {
-      } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false)
-        }
-      }
-    }
-
-    fetchPodium()
-
-    return () => {
-      controller.abort()
-    }
-  }, [year, round, end_event_date])
+  const { data: podium, loading: loading } = useFetch({
+    fetcher: (signal) => getEventPodium(year, round, signal),
+    skip: new Date().getTime() <= new Date(end_event_date).getTime(),
+    deps: [year, round],
+  })
 
   const countryCode = getCountryCode(country)
 
@@ -85,7 +61,7 @@ const EventCard = ({
       {finished !== undefined && (
         <EventCardBottom
           finished={finished}
-          podium={podium}
+          podium={podium?.podium}
           year={year}
           round={round}
           start_event_date={start_event_date}

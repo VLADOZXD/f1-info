@@ -1,5 +1,5 @@
 type ConstructorStandingsProps = {
-  constructors: ConstructorStandingType[]
+  constructors: ConstructorStandingsData[]
 }
 
 const ConstructorStandings = ({ constructors }: ConstructorStandingsProps) => {

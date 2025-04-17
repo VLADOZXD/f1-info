@@ -1,32 +1,21 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { ScheduleType } from "@/types/schedule"
+import { useState } from "react"
 import { getSchedule } from "@/utils/api"
 import Schedule from "@/components/Schedule"
 import ArrowButton from "@/components/ArrowButton"
 import Container from "@/components/Container"
 import SkeletonEventCard from "@/components/Schedule/SkeletonEventCard"
+import { useFetch } from "@/hooks/useFetch"
 
 const SchedulePage = () => {
   const currentYear = new Date().getFullYear()
   const [year, setYear] = useState(currentYear)
-  const [schedule, setSchedule] = useState<ScheduleType | null>(null)
-  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const fetchSchedule = async () => {
-      setLoading(true)
-      try {
-        const data = await getSchedule(year)
-        setSchedule(data)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchSchedule()
-  }, [year])
+  const { data: schedule, loading } = useFetch({
+    fetcher: () => getSchedule(year),
+    deps: [year],
+  })
 
   const handlePreviousClick = () => {
     setYear((prev) => prev - 1)

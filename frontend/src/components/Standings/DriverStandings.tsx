@@ -1,5 +1,5 @@
 type DriverStandingsProps = {
-  drivers: DriverStandingType[]
+  drivers: DriverStandingsData[]
 }
 
 const DriverStandings = ({ drivers }: DriverStandingsProps) => {
