@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastf1.ergast import Ergast
 import uuid
 
@@ -30,9 +30,9 @@ async def get_driver_standings(year: int):
                 "team_color": get_team_color(year, round, team_name) if year > 2017 else "#b8b8b8"
             }
             standings.append(driver_data)
-        return {"driver_standings": standings}
+        return standings
     except Exception as e:
-        return {"error": str(e)}
+        raise HTTPException(status_code=404, detail=str(e))
         
 @router.get("/constructor/{year}")
 async def get_constructor_standings(year: int):
@@ -53,6 +53,6 @@ async def get_constructor_standings(year: int):
                 "team_color": get_team_color(year, 1, construcor_name) if year > 2017 else "#b8b8b8"
             }
             standings.append(constructor_data)
-        return {"constructor_standings": standings}
+        return standings
     except Exception as e:
-        return {"error": str(e)}  
+        raise HTTPException(status_code=404, detail=str(e)) 

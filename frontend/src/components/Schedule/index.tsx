@@ -1,5 +1,5 @@
 import { ScheduleType } from "@/types/schedule"
-import Container from "../Container"
+import Container from "../shared/Container"
 import EventCard from "./EventCard"
 
 type ScheduleProps = ScheduleType
@@ -17,6 +17,7 @@ const Schedule = ({ events, year }: ScheduleProps) => {
           }
           round={event.round}
           country={event.country}
+          official_name={event.official_name}
           name={event.name}
           start_event_date={event.start_event_date}
           end_event_date={event.end_event_date}

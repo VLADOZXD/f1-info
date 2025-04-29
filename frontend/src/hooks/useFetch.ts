@@ -31,6 +31,10 @@ export const useFetch = <T>({
           setData(result)
         }
       } catch (err) {
+        if ((err as any).name === "AbortError") {
+          // Якщо це просто аборт — нічого не робимо
+          return
+        }
         if (!signal.aborted) {
           setError(err as Error)
         }

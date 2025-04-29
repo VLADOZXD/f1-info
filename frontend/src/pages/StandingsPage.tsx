@@ -1,13 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import Container from "@/components/Container"
-import DriverStandings from "@/components/Standings/DriverStandings"
+import Container from "@/components/shared/Container"
+import StandingsTable from "@/components/Standings/TableStandings"
 import StandingsToggle from "@/components/Standings/StandingsToggle"
 import { getConstructorStandings, getDriverStandings } from "@/utils/api"
-import ConstructorStandings from "@/components/Standings/ConstructorStandings"
-import SkeletonStandings from "@/components/Standings/SkeletonStandings"
-import ArrowButton from "@/components/ArrowButton"
+import ArrowButton from "@/components/shared/ArrowButton"
 import { useFetch } from "@/hooks/useFetch"
 
 const StandingsPage = () => {
@@ -17,7 +15,7 @@ const StandingsPage = () => {
   const [year, setYear] = useState(currentYear)
 
   const { data: standings, loading } = useFetch<
-    DriverStandingsType | ConstructorStandingsType
+    DriverStandingsData[] | ConstructorStandingsData[]
   >({
     fetcher: () =>
       toggle === "driver"
@@ -57,19 +55,7 @@ const StandingsPage = () => {
           />
         )}
       </div>
-      {loading && <SkeletonStandings columns={toggle === "driver" ? 4 : 3} />}
-      {!loading &&
-        standings &&
-        (toggle === "driver" && "driver_standings" in standings ? (
-          <DriverStandings drivers={standings.driver_standings} />
-        ) : (
-          toggle === "constructor" &&
-          "constructor_standings" in standings && (
-            <ConstructorStandings
-              constructors={standings.constructor_standings}
-            />
-          )
-        ))}
+      <StandingsTable data={standings} loading={loading} standings={toggle} />
     </Container>
   )
 }

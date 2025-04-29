@@ -1,3 +1,4 @@
+import { EventResponse, SessionResultsResponse } from "@/types/event"
 import { PodiumType, ScheduleType } from "@/types/schedule"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -29,20 +30,35 @@ export const getEventPodium = (
   round: number,
   signal?: AbortSignal,
 ): Promise<PodiumType> => {
-  return fetchData(`/api/py/results/podium/`, { year, round }, signal)
+  return fetchData(`/api/py/results/podium`, { year, round }, signal)
+}
+
+export const getSessionResults = (
+  year: number,
+  round: string,
+  session_type: string,
+): Promise<SessionResultsResponse> => {
+  return fetchData(`/api/py/results`, { year, round, session_type })
 }
 
 export const getSchedule = (year: number): Promise<ScheduleType> => {
-  return fetchData(`/api/py/schedule/${year}`)
+  return fetchData(`/api/py/schedule`, { year })
+}
+
+export const getEventSchedule = (
+  year: number,
+  round: string,
+): Promise<EventResponse> => {
+  return fetchData(`/api/py/schedule/event`, { year, round })
 }
 
 export const getDriverStandings = (
   year: number,
-): Promise<DriverStandingsType> => {
+): Promise<DriverStandingsData[]> => {
   return fetchData(`/api/py/standings/driver/${year}`)
 }
 export const getConstructorStandings = (
   year: number,
-): Promise<ConstructorStandingsType> => {
+): Promise<ConstructorStandingsData[]> => {
   return fetchData(`/api/py/standings/constructor/${year}`)
 }

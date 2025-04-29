@@ -1,4 +1,4 @@
-import Container from "../Container"
+import Container from "../shared/Container"
 import MenuItem from "./MenuItem"
 
 const MENU_ITEMS = [

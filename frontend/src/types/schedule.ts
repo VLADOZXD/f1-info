@@ -5,6 +5,7 @@ export type RaceEventType = {
   round: number
   name: string
   country: keyof typeof countries
+  official_name: string
   start_event_date: string
   end_event_date: string
 }

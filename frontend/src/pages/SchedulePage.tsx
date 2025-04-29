@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { getSchedule } from "@/utils/api"
 import Schedule from "@/components/Schedule"
-import ArrowButton from "@/components/ArrowButton"
-import Container from "@/components/Container"
+import ArrowButton from "@/components/shared/ArrowButton"
+import Container from "@/components/shared/Container"
 import SkeletonEventCard from "@/components/Schedule/SkeletonEventCard"
 import { useFetch } from "@/hooks/useFetch"
 

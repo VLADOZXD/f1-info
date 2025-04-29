@@ -1,6 +1,6 @@
 import Image from "next/image"
-import ArrowRight from "../../public/assets/arrow-right.svg"
-import ArrowLeft from "../../public/assets/arrow-left.svg"
+import ArrowRight from "../../../public/assets/arrow-right.svg"
+import ArrowLeft from "../../../public/assets/arrow-left.svg"
 
 type ArrowButtonProps = {
   orientation: "left" | "right"
