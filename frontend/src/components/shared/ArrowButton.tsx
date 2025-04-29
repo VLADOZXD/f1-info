@@ -7,6 +7,7 @@ type ArrowButtonProps = {
   text: string | number
   onArrowClick: () => void
   arrowDisable?: boolean
+  className?: string
 }
 
 const ArrowButton = ({
@@ -14,11 +15,12 @@ const ArrowButton = ({
   text,
   onArrowClick,
   arrowDisable,
+  className,
 }: ArrowButtonProps) => {
   return (
     <button
       className={`group flex items-center ${arrowDisable ? "cursor-not-allowed" : "cursor-pointer"}
-        ${orientation === "right" ? "flex-row-reverse" : ""}`}
+        ${orientation === "right" ? "flex-row-reverse" : ""} ${className}`}
       onClick={onArrowClick}
       disabled={arrowDisable}
     >
