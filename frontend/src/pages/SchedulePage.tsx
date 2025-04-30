@@ -49,7 +49,7 @@ const SchedulePage = ({ year }: SchedulePageProps) => {
           />
         )}
       </div>
-      {loading ? (
+      {loading || schedule === null ? (
         <div className="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-x-4 gap-y-8">
           {Array.from({ length: 8 }).map((_, index) => (
             <SkeletonEventCard key={index} />

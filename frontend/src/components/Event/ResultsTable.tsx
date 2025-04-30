@@ -48,7 +48,7 @@ const ResultsTable = ({
     <>
       {loading ? (
         <LoadingTable columns={columns} />
-      ) : data ? (
+      ) : data && data.length > 0 ? (
         isRaceResults(data) ? (
           <Table columns={raceResults} data={data} />
         ) : (
