@@ -1,4 +1,4 @@
-import EventPage from "@/pages/EventPage"
+import EventPage from "@/components/pages/EventPage"
 import { getEventSchedule } from "@/utils/api"
 
 type EventPageProps = {

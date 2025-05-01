@@ -1,4 +1,4 @@
-import StandingsPage from "@/pages/StandingsPage"
+import StandingsPage from "@/components/pages/StandingsPage"
 
 const Standings = () => {
   return <StandingsPage />

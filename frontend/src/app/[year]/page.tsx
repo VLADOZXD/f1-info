@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import SchedulePage from "@/pages/SchedulePage"
+import SchedulePage from "@/components/pages/SchedulePage"
 
 type SchedulePageProps = {
   params: {
@@ -11,7 +11,7 @@ type SchedulePageProps = {
 }
 
 const Schedule = ({ params }: SchedulePageProps) => {
-  const { year } = params
+  const year = Number(params.year)
 
   const router = useRouter()
   const currentYear = new Date().getFullYear()
@@ -22,11 +22,11 @@ const Schedule = ({ params }: SchedulePageProps) => {
     }
   }, [year, currentYear, router])
 
-  if (year > currentYear || year < 0 || isNaN(year)) {
+  if (year > currentYear || year < 2018 || isNaN(year)) {
     return null
   }
 
-  return <SchedulePage year={Number(params.year)} />
+  return <SchedulePage year={year} />
 }
 
 export default Schedule
