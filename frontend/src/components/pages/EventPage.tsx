@@ -24,11 +24,13 @@ const EventPage = ({ event }: EventPageProps) => {
             />
             <EventSchedule sessions={event.sessions} />
           </div>
-          <EventResults
-            year={event.year}
-            round={event.name}
-            eventFormat={event.event_format}
-          />
+          {event.event_format !== "testing" && (
+            <EventResults
+              year={event.year}
+              round={event.name}
+              eventFormat={event.event_format}
+            />
+          )}
         </>
       )}
     </Container>

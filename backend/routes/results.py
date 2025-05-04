@@ -34,10 +34,13 @@ def get_session_results(year: int, round: str, session_type: str):
             messages=False,
         )
 
+        if session.results['Position'].isnull().any():
+            return []
+
         if (session_type == "Qualifying"):
             results = session.results[['Position', 'DriverNumber', 'FullName', 'TeamName', 'Q1', 'Q2', "Q3"]].copy()
-
             results.loc[:, 'Position'] = results['Position'].fillna(0).astype(int)
+
             for col in ['Q1', 'Q2', 'Q3']:
                 results[col] = results[col].astype(str).apply(
                     lambda x: 
@@ -48,11 +51,14 @@ def get_session_results(year: int, round: str, session_type: str):
             results.columns = ['position', 'driver_number', 'driver', 'team_name', 'q1', 'q2', 'q3']
 
             return results.to_dict(orient='records')
+        
         elif (session_type == "Race" or session_type == "Sprint"):
             results = session.results[['Position', 'DriverNumber', 'FullName', 'TeamName', 'Points']]
             results.loc[:, 'Position'] = results['Position'].fillna(0).astype(int)
 
             results.columns = ['position', 'driver_number', 'driver', 'team_name', 'points']
+
+            print(results)
 
             return results.to_dict(orient='records')
         
