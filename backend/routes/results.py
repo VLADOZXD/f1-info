@@ -58,8 +58,6 @@ def get_session_results(year: int, round: str, session_type: str):
 
             results.columns = ['position', 'driver_number', 'driver', 'team_name', 'points']
 
-            print(results)
-
             return results.to_dict(orient='records')
         
     except Exception as e:

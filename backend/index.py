@@ -24,6 +24,6 @@ if not os.path.exists('./backend/__pycache__'):
     os.makedirs('./backend/__pycache__')
 fastf1.Cache.enable_cache('./backend/__pycache__') 
 
-fastf1.set_log_level('WARNING')
+# fastf1.set_log_level('WARNING')
 
 app.include_router(api_router)
