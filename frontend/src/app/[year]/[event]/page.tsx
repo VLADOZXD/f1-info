@@ -1,5 +1,5 @@
 import EventPage from "@/components/pages/EventPage"
-import { getEventSchedule } from "@/utils/api"
+import { fetchEventSchedule } from "@/utils/api"
 
 type EventPageProps = {
   params: {
@@ -11,7 +11,7 @@ type EventPageProps = {
 const Event = async ({ params }: EventPageProps) => {
   const { year, event } = params
 
-  const data = await getEventSchedule(year, event.replace(/-/g, " "))
+  const data = await fetchEventSchedule(year, event.replace(/-/g, " "))
 
   return <EventPage event={data.event} />
 }

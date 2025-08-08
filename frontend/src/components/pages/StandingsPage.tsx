@@ -4,9 +4,9 @@ import { useState } from "react"
 import Container from "@/components/shared/Container"
 import StandingsTable from "@/components/Standings/TableStandings"
 import StandingsToggle from "@/components/Standings/StandingsToggle"
-import { getConstructorStandings, getDriverStandings } from "@/utils/api"
+import { fetchConstructorStandings, fetchDriverStandings } from "@/utils/api"
 import ArrowButton from "@/components/shared/ArrowButton"
-import { useFetch } from "@/hooks/useFetch"
+import { useQuery } from "@tanstack/react-query"
 
 const StandingsPage = () => {
   const [toggle, setToggle] = useState<"driver" | "constructor">("driver")
@@ -14,14 +14,16 @@ const StandingsPage = () => {
   const currentYear = new Date().getFullYear()
   const [year, setYear] = useState(currentYear)
 
-  const { data: standings, loading } = useFetch<
-    DriverStandingsData[] | ConstructorStandingsData[]
+  const { data: standings, isLoading } = useQuery<
+    DriverStandingsResponse[] | ConstructorStandingsResponse[]
   >({
-    fetcher: () =>
+    queryKey: ["standings", toggle, year],
+    queryFn: () =>
       toggle === "driver"
-        ? getDriverStandings(year)
-        : getConstructorStandings(year),
-    deps: [toggle, year],
+        ? fetchDriverStandings(year)
+        : fetchConstructorStandings(year),
+    staleTime: 600000,
+    refetchOnWindowFocus: false,
   })
 
   const handlerToggleClick = (standings: "driver" | "constructor") => {
@@ -44,18 +46,22 @@ const StandingsPage = () => {
           orientation="left"
           text={year - 1}
           onArrowClick={handlePreviousClick}
-          arrowDisable={loading}
+          arrowDisable={isLoading}
         />
         {!(year === currentYear) && (
           <ArrowButton
             orientation="right"
             text={year + 1}
             onArrowClick={handleNextClick}
-            arrowDisable={loading}
+            arrowDisable={isLoading}
           />
         )}
       </div>
-      <StandingsTable data={standings} loading={loading} standings={toggle} />
+      <StandingsTable
+        data={standings}
+        isLoading={isLoading}
+        standings={toggle}
+      />
     </Container>
   )
 }

@@ -2,21 +2,21 @@ import Table from "../shared/Table"
 import LoadingTable from "../shared/LoadingTable"
 
 type StandingsTableProps = {
-  data: DriverStandingsData[] | ConstructorStandingsData[] | null
+  data: DriverStandingsResponse[] | ConstructorStandingsResponse[] | undefined
   standings: "driver" | "constructor"
-  loading?: boolean
+  isLoading?: boolean
 }
 
 const StandingsTable = ({
   data,
   standings,
-  loading = false,
+  isLoading = false,
 }: StandingsTableProps) => {
-  const driverStandings: Column<DriverStandingsData>[] = [
+  const driverStandings: Column<DriverStandingsResponse>[] = [
     { header: "POS", accessor: "position", className: "pl-4" },
     {
       header: "DRIVER",
-      render: (driver: DriverStandingsData) => (
+      render: (driver: DriverStandingsResponse) => (
         <div className="flex items-center">
           <div
             className="w-2 h-6 rounded-sm mr-1"
@@ -30,11 +30,11 @@ const StandingsTable = ({
     { header: "PTS", accessor: "points" },
   ]
 
-  const constructorStandings: Column<ConstructorStandingsData>[] = [
+  const constructorStandings: Column<ConstructorStandingsResponse>[] = [
     { header: "POS", accessor: "position", className: "pl-4" },
     {
       header: "TEAM",
-      render: (constructor: ConstructorStandingsData) => (
+      render: (constructor: ConstructorStandingsResponse) => (
         <div className="flex items-center">
           <div
             className="w-2 h-6 rounded-sm mr-1"
@@ -48,14 +48,14 @@ const StandingsTable = ({
   ]
 
   const isDriverStandingsData = (
-    data: DriverStandingsData[] | ConstructorStandingsData[],
-  ): data is DriverStandingsData[] => {
+    data: DriverStandingsResponse[] | ConstructorStandingsResponse[],
+  ): data is DriverStandingsResponse[] => {
     return data.length > 0 && "driver_name" in data[0]
   }
 
   return (
     <div className="lg:mt-7 md:mt-4 mt-3">
-      {loading ? (
+      {isLoading ? (
         <LoadingTable
           columns={
             standings === "driver" ? driverStandings : constructorStandings

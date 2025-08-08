@@ -1,10 +1,20 @@
-import { ScheduleType } from "@/types/schedule"
-import Container from "../shared/Container"
-import EventCard from "./EventCard"
+"use client"
 
-type ScheduleProps = ScheduleType
+import { ScheduleResponse } from "@/types/schedule"
+import EventCard from "./EventCard"
+import { fetchRacesPodium } from "@/utils/api"
+import { useQuery } from "@tanstack/react-query"
+
+type ScheduleProps = ScheduleResponse
 
 const Schedule = ({ events, year }: ScheduleProps) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["racesPodium", year],
+    queryFn: () => fetchRacesPodium(year),
+    staleTime: 600000,
+    refetchOnWindowFocus: true,
+  })
+
   const currentDate = new Date()
 
   return (
@@ -15,6 +25,8 @@ const Schedule = ({ events, year }: ScheduleProps) => {
           finished={
             currentDate.getTime() > new Date(event.end_event_date).getTime()
           }
+          podium={data?.find((race) => race.raceName === event.name)?.podium}
+          podiumIsLoading={isLoading}
           round={event.round}
           country={event.country}
           official_name={event.official_name}

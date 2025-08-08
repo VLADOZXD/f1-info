@@ -63,21 +63,40 @@ def get_session_results(year: int, round: str, session_type: str):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@router.get("/podium")
-async def get_race_podium(year: int, round: int):
+    
+@router.get("/races-podium")
+async def get_races_podium(year: int):
     try:
-        podium = ergast.get_race_results(year, round, result_type='raw', limit=3)[0]["Results"]
+        podium_by_race = {}
+    
+        for position in [1, 2, 3]:
+            response = ergast.get_race_results(year, results_position=position, result_type='raw')
+            for race in response:
+                rnd = int(race['round'])
+                race_name = race['raceName']
+                driver = race['Results'][0]
 
-        race_podium = []
-        for driver in podium:
-            if round != 0:
                 podium_data = {
                     "id": str(uuid.uuid4()),
                     "position": int(driver["position"]),
                     "driver_code": driver["Driver"]["code"],
-                    "team_color": get_team_color(year, round, driver["Constructor"]["name"]) if year > 2017 else "#b8b8b8"
+                    "team_color": get_team_color(year, rnd, driver["Constructor"]["name"]) if year > 2017 else "#b8b8b8"
                 }
-                race_podium.append(podium_data)
-        return {"podium": race_podium}
+
+                if rnd not in podium_by_race:
+                    podium_by_race[rnd] = {
+                        "raceName": race_name,
+                        "podium": []
+                    }
+
+                podium_by_race[rnd]["podium"].append(podium_data)
+
+        podium_list = []
+        for rnd in podium_by_race.keys():
+            race_data = podium_by_race[rnd]
+            podium_list.append(race_data)
+
+        return podium_list
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
+    

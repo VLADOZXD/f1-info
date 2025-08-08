@@ -1,6 +1,6 @@
 import { countries } from "@/constants/countries"
 
-export type RaceEventType = {
+export type RaceEvent = {
   id: string
   round: number
   name: string
@@ -10,9 +10,9 @@ export type RaceEventType = {
   end_event_date: string
 }
 
-export type ScheduleType = {
+export type ScheduleResponse = {
   year: number
-  events: RaceEventType[]
+  events: RaceEvent[]
 }
 
 export type Driver = {
@@ -22,6 +22,9 @@ export type Driver = {
   team_color: string
 }
 
-export type PodiumType = {
+export type RacePodium = {
+  raceName: string
   podium: Driver[]
 }
+
+export type RacesPodiumRespose = RacePodium[]

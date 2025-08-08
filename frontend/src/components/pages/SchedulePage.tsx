@@ -1,12 +1,12 @@
 "use client"
 
-import { getSchedule } from "@/utils/api"
+import { fetchSchedule } from "@/utils/api"
 import Schedule from "@/components/Schedule"
 import ArrowButton from "@/components/shared/ArrowButton"
 import Container from "@/components/shared/Container"
 import SkeletonEventCard from "@/components/Schedule/SkeletonEventCard"
-import { useFetch } from "@/hooks/useFetch"
 import { useRouter } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 
 type SchedulePageProps = {
   year: number
@@ -15,8 +15,11 @@ type SchedulePageProps = {
 const SchedulePage = ({ year }: SchedulePageProps) => {
   const router = useRouter()
 
-  const { data: schedule, loading } = useFetch({
-    fetcher: () => getSchedule(year),
+  const { data: schedule, isLoading } = useQuery({
+    queryKey: ["schedule", year],
+    queryFn: () => fetchSchedule(year),
+    staleTime: 600000,
+    refetchOnWindowFocus: false,
   })
 
   const currentYear = new Date().getFullYear()
@@ -36,7 +39,7 @@ const SchedulePage = ({ year }: SchedulePageProps) => {
             orientation="left"
             text={year - 1}
             onArrowClick={handlePreviousClick}
-            arrowDisable={loading}
+            arrowDisable={isLoading}
           />
         )}
         {year < currentYear && (
@@ -44,12 +47,12 @@ const SchedulePage = ({ year }: SchedulePageProps) => {
             orientation="right"
             text={year + 1}
             onArrowClick={handleNextClick}
-            arrowDisable={loading}
+            arrowDisable={isLoading}
             className="ml-auto"
           />
         )}
       </div>
-      {loading || schedule === null ? (
+      {isLoading || schedule === null ? (
         <div className="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-x-4 gap-y-8">
           {Array.from({ length: 8 }).map((_, index) => (
             <SkeletonEventCard key={index} />

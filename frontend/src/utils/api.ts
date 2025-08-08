@@ -1,12 +1,11 @@
 import { EventResponse, SessionResultsResponse } from "@/types/event"
-import { PodiumType, ScheduleType } from "@/types/schedule"
+import { RacesPodiumRespose, ScheduleResponse } from "@/types/schedule"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 const fetchData = async <T>(
   endpoint: string,
   params?: Record<string, any>,
-  signal?: AbortSignal,
 ): Promise<T> => {
   const url = new URL(`${API_URL}${endpoint}`)
 
@@ -16,7 +15,7 @@ const fetchData = async <T>(
     )
   }
 
-  const response = await fetch(url.toString(), { signal })
+  const response = await fetch(url.toString())
 
   if (!response.ok) {
     throw new Error(response.statusText)
@@ -25,15 +24,11 @@ const fetchData = async <T>(
   return response.json()
 }
 
-export const getEventPodium = (
-  year: number,
-  round: number,
-  signal?: AbortSignal,
-): Promise<PodiumType> => {
-  return fetchData(`/api/py/results/podium`, { year, round }, signal)
+export const fetchRacesPodium = (year: number): Promise<RacesPodiumRespose> => {
+  return fetchData(`/api/py/results/races-podium`, { year })
 }
 
-export const getSessionResults = (
+export const fetchSessionResults = (
   year: number,
   round: string,
   session_type: string,
@@ -41,24 +36,24 @@ export const getSessionResults = (
   return fetchData(`/api/py/results`, { year, round, session_type })
 }
 
-export const getSchedule = (year: number): Promise<ScheduleType> => {
+export const fetchSchedule = (year: number): Promise<ScheduleResponse> => {
   return fetchData(`/api/py/schedule`, { year })
 }
 
-export const getEventSchedule = (
+export const fetchEventSchedule = (
   year: number,
   round: string,
 ): Promise<EventResponse> => {
   return fetchData(`/api/py/schedule/event`, { year, round })
 }
 
-export const getDriverStandings = (
+export const fetchDriverStandings = (
   year: number,
-): Promise<DriverStandingsData[]> => {
+): Promise<DriverStandingsResponse[]> => {
   return fetchData(`/api/py/standings/driver/${year}`)
 }
-export const getConstructorStandings = (
+export const fetchConstructorStandings = (
   year: number,
-): Promise<ConstructorStandingsData[]> => {
+): Promise<ConstructorStandingsResponse[]> => {
   return fetchData(`/api/py/standings/constructor/${year}`)
 }

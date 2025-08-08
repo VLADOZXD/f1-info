@@ -1,4 +1,4 @@
-type DriverStandingsData = {
+type DriverStandingsResponse = {
   id: string
   position: string
   points: string
@@ -7,7 +7,7 @@ type DriverStandingsData = {
   team_color: string
 }
 
-type ConstructorStandingsData = {
+type ConstructorStandingsResponse = {
   id: string
   position: string
   points: string

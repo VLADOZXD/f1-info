@@ -1,20 +1,21 @@
-import { useFetch } from "@/hooks/useFetch"
 import ReactCountryFlag from "react-country-flag"
 import EventCardBottom from "./EventCardBottom"
-import { getEventPodium } from "@/utils/api"
 import formateDate from "@/utils/formateDate"
 import { getCountryCode } from "@/utils/getCountryCode"
-import { RaceEventType } from "@/types/schedule"
+import { RaceEvent } from "@/types/schedule"
 import Link from "next/link"
-import { useInView } from "react-intersection-observer"
 
-type EventCardProps = Omit<RaceEventType, "id"> & {
+type EventCardProps = Omit<RaceEvent, "id"> & {
   finished?: boolean
+  podium: any | null
+  podiumIsLoading: boolean
   year: number
 }
 
 const EventCard = ({
   finished,
+  podium,
+  podiumIsLoading,
   round,
   name,
   official_name,
@@ -23,21 +24,13 @@ const EventCard = ({
   end_event_date,
   year,
 }: EventCardProps) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
   const countryCode = getCountryCode(country)
 
   const roundSlug = name.toLowerCase().replace(/\s+/g, "-")
 
   return (
     <Link href={`/${year}/${roundSlug}`}>
-      <div
-        ref={ref}
-        className="w-auto rounded-xl border-2 bg-primary border-red relative hover:scale-[1.01] ease-in-out duration-50"
-      >
+      <div className="w-auto rounded-xl border-2 bg-primary border-red relative hover:scale-[1.01] ease-in-out duration-50">
         <div className="absolute md:top-[-10px] top-[-8px] md:left-6 left-3 bg-inherit md:text-sm text-xs sm:font-bold font-semibold uppercase sm:px-2 px-0.5">
           {`Round ${round}`}
         </div>
@@ -75,7 +68,8 @@ const EventCard = ({
             round={round}
             start_event_date={start_event_date}
             end_event_date={end_event_date}
-            allowFetch={inView}
+            podium={podium}
+            isLoading={podiumIsLoading}
           />
         )}
       </div>

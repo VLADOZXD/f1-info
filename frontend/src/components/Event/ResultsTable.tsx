@@ -3,14 +3,14 @@ import Table from "../shared/Table"
 import LoadingTable from "../shared/LoadingTable"
 
 type ResultsTableProps = {
-  data: QualifyingResults[] | RaceResults[] | null
-  loading?: boolean
+  data: QualifyingResults[] | RaceResults[] | undefined
+  isLoading?: boolean
   activeSection: "race" | "sprint" | "qualifying"
 }
 
 const ResultsTable = ({
   data,
-  loading = false,
+  isLoading = false,
   activeSection,
 }: ResultsTableProps) => {
   const raceResults: Column<RaceResults>[] = [
@@ -46,7 +46,7 @@ const ResultsTable = ({
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <LoadingTable columns={columns} />
       ) : data && data.length > 0 ? (
         isRaceResults(data) ? (

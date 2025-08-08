@@ -1,11 +1,11 @@
 "use client"
 
-import { EventFormat, Session, SessionResultsResponse } from "@/types/event"
+import { EventFormat } from "@/types/event"
 import ResultsSidebar from "./ResultsSidebar"
 import { useState } from "react"
-import { useFetch } from "@/hooks/useFetch"
-import { getSessionResults } from "@/utils/api"
+import { fetchSessionResults } from "@/utils/api"
 import ResultsTable from "./ResultsTable"
+import { useQuery } from "@tanstack/react-query"
 
 type EventResultsProps = {
   year: number
@@ -18,9 +18,11 @@ const EventResults = ({ year, round, eventFormat }: EventResultsProps) => {
     "race" | "sprint" | "qualifying"
   >("race")
 
-  const { data: results, loading } = useFetch<SessionResultsResponse>({
-    fetcher: () => getSessionResults(year, round, activeSection),
-    deps: [activeSection],
+  const { data: results, isLoading } = useQuery({
+    queryKey: ["racesPodium", year, round, activeSection],
+    queryFn: () => fetchSessionResults(year, round, activeSection),
+    staleTime: 600000,
+    refetchOnWindowFocus: false,
   })
 
   return (
@@ -32,7 +34,7 @@ const EventResults = ({ year, round, eventFormat }: EventResultsProps) => {
       />
       <ResultsTable
         data={results}
-        loading={loading}
+        isLoading={isLoading}
         activeSection={activeSection}
       />
     </div>
