@@ -1,5 +1,7 @@
+import Image from "next/image"
 import Container from "../shared/Container"
 import MenuItem from "./MenuItem"
+import Logo from "../../../public/assets/logo.svg"
 
 const MENU_ITEMS = [
   { text: "schedule", href: "/" },
@@ -10,9 +12,11 @@ const Menu = () => {
   return (
     <Container>
       <div className="flex items-center">
-        <div className="md:text-3xl text-xl line-clamp-2 xl:mr-24 lg:mr-20 md:mr-16 mr-10">
-          F1 info
-        </div>
+        <Image
+          src={Logo}
+          alt="logo"
+          className="md:mr-14 mr-10 ml-4 md:w-12 w-10 aspect-auto"
+        />
         <ul className="flex flex-row xl:gap-12 md:gap-10 gap-6">
           {MENU_ITEMS.map((item) => (
             <MenuItem href={item.href} text={item.text} key={item.text} />
